@@ -1,4 +1,4 @@
-import streamlit as st
+mport streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
@@ -18,7 +18,7 @@ model, scaler, encoders, feature_columns = load_artifacts()
  
 st.set_page_config(page_title="Diabetes Risk Predictor", page_icon="🩺", layout="centered")
 st.title("🩺 Diabetes Risk Predictor")
-st.write("Apni health aur lifestyle details daalein, model aapka diabetes risk predict karega.")
+st.write("Enter your health and lifestyle details below, and the model will predict your diabetes risk.")
  
 # ---------- Categorical options (from your LabelEncoders) ----------
 gender_options = list(encoders["gender"].classes_)
@@ -127,7 +127,7 @@ if submitted:
     input_df = pd.DataFrame([raw_input])
     missing_cols = [c for c in feature_columns if c not in input_df.columns]
     if missing_cols:
-        st.error(f"Ye columns app mein missing hain, feature_columns.json check karein: {missing_cols}")
+        st.error(f"These columns are missing from the app — please check feature_columns.json: {missing_cols}")
     else:
         input_df = input_df[feature_columns]
         input_scaled = scaler.transform(input_df)
