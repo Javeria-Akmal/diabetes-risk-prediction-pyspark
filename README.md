@@ -1,34 +1,74 @@
-# Diabetes Risk Prediction using PySpark & ML
+🩺 Diabetes Risk Prediction — Big Data & Machine Learning Pipeline
 
-End-to-end Big Data + Machine Learning pipeline for diabetes risk prediction.
+An end-to-end machine learning system that predicts an individual's diabetes risk using demographic, lifestyle, and clinical data. The project covers the full pipeline — from big data processing with PySpark, through feature engineering and model training, to a live, interactive Streamlit web application.
 
-##  Overview
-Built an end-to-end machine learning pipeline on a 100,000 patient records diabetes health dataset with 31 clinical and demographic features, combining Big Data processing with ML modeling.
+🚀 Live Demo
 
-##  Tech Stack
-Python, Apache PySpark, Dask, Google BigQuery, Scikit-learn, XGBoost, SVM, Random Forest
+Try the app here →
 
-##  What I Did
-- Big data processing using Apache PySpark & Dask
-- RDD transformations, Spark SQL & Window Functions
-- Google BigQuery integration for public dataset analysis
-- Outlier removal, SMOTE balancing & feature engineering
-- Trained Random Forest, SVM & XGBoost with hyperparameter tuning
+Enter health and lifestyle details (age, BMI, glucose levels, activity, etc.) and get an instant diabetes risk prediction with probability score.
 
-##  Results
-Best performing model: **XGBoost**
-- Accuracy: **99.97%**
-- F1 Score: **99.97%**
-- AUC: **99.99%**
+📊 Project Overview
 
-##  How to Run
-1. Clone this repo
-2. Install required libraries: `pip install pyspark dask scikit-learn xgboost imbalanced-learn`
-3. Open the notebook and run cells sequentially
-4. Note: PySpark setup may require Java installed on your system
+This project analyzes a dataset of 100,000 patient records to build a classification model that predicts whether an individual is likely to have diabetes. It demonstrates a complete data science workflow at scale, combining distributed data processing with traditional ML techniques.
 
-##  Dataset
-100,000 patient records with 31 clinical and demographic features
+Key steps:
 
-##  Contact
-Javeria Akmal — [LinkedIn](https://www.linkedin.com/in/javeria-akmal-20942a409/)
+Large-scale data processing and exploration using PySpark (RDDs, DataFrames, Spark SQL, window functions)
+Data cleaning, outlier removal (IQR method), and missing value imputation
+Feature engineering, encoding, and scaling
+Handling class imbalance with SMOTE
+Model training and comparison (Random Forest, SVM, XGBoost)
+Hyperparameter tuning with GridSearchCV
+Careful removal of data leakage features to ensure realistic, generalizable performance
+Deployment as an interactive web app for real-time predictions
+🛠️ Tech Stack
+Category	Tools
+Big Data Processing	PySpark, Dask
+Data Analysis	Pandas, NumPy
+Machine Learning	Scikit-learn, XGBoost, imbalanced-learn (SMOTE)
+Visualization	Matplotlib, Seaborn
+Cloud & Public Data	Google BigQuery, Google Colab
+Deployment	Streamlit, Streamlit Community Cloud
+Version Control	Git, GitHub
+📈 Model Performance
+
+Multiple models were trained and evaluated (Random Forest, SVM, XGBoost) using accuracy, precision, recall, F1-score, and AUC. XGBoost was selected as the final model based on overall performance.
+
+Note: An earlier version of this model included features derived from the target label (e.g., diabetes stage, row-level ranking), which artificially inflated accuracy to ~99.9%. These were identified and removed to prevent data leakage, resulting in a model that reflects realistic, real-world predictive performance on genuinely unseen inputs.
+
+🧩 Features Used
+
+The model takes 29 real-world features across four categories:
+
+Demographics: age, gender, ethnicity, education level, income level, employment status
+Lifestyle: smoking status, alcohol consumption, physical activity, diet score, sleep hours, screen time
+Medical History: family history of diabetes, hypertension history, cardiovascular history
+Clinical Measurements: BMI, waist-to-hip ratio, blood pressure, heart rate, cholesterol panel, triglycerides, glucose (fasting/postprandial), insulin level, HbA1c
+📁 Repository Structure
+├── Diabetes_Health_Indicators_Dataset.ipynb   # Full analysis & model training notebook
+├── app.py                                     # Streamlit web application
+├── diabetes_model.pkl                         # Trained XGBoost model
+├── scaler.pkl                                 # Fitted StandardScaler
+├── encoders.pkl                               # LabelEncoders for categorical features
+├── feature_columns.json                       # Expected feature order for inference
+├── requirements.txt                           # Python dependencies
+└── README.md
+⚙️ Running Locally
+bash
+# Clone the repository
+git clone https://github.com/Javeria-Akmal/diabetes-risk-prediction-pyspark.git
+cd diabetes-risk-prediction-pyspark
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+streamlit run app.py
+⚠️ Disclaimer
+
+This tool is built for educational and demonstration purposes only. It is not a medical diagnostic tool. Predictions should not be used as a substitute for professional medical advice — please consult a healthcare provider for any health concerns.
+
+👩‍💻 Author
+
+Javeria Akmal BS Data Science, KFUEIT GitHub
