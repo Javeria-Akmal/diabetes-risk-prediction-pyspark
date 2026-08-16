@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import json
-
+ 
 # ---------- Load saved model, scaler, encoders, feature list ----------
 @st.cache_resource
 def load_artifacts():
@@ -13,13 +13,13 @@ def load_artifacts():
     with open("feature_columns.json", "r") as f:
         feature_columns = json.load(f)
     return model, scaler, encoders, feature_columns
-
+ 
 model, scaler, encoders, feature_columns = load_artifacts()
-
+ 
 st.set_page_config(page_title="Diabetes Risk Predictor", page_icon="🩺", layout="centered")
 st.title("🩺 Diabetes Risk Predictor")
 st.write("Apni health aur lifestyle details daalein, model aapka diabetes risk predict karega.")
-
+ 
 # ---------- Categorical options (from your LabelEncoders) ----------
 gender_options = list(encoders["gender"].classes_)
 ethnicity_options = list(encoders["ethnicity"].classes_)
@@ -27,7 +27,7 @@ education_options = list(encoders["education_level"].classes_)
 income_options = list(encoders["income_level"].classes_)
 employment_options = list(encoders["employment_status"].classes_)
 smoking_options = list(encoders["smoking_status"].classes_)
-
+ 
 # ---------- Input form ----------
 with st.form("prediction_form"):
     st.subheader("Demographics")
@@ -40,7 +40,7 @@ with st.form("prediction_form"):
         education_level = st.selectbox("Education Level", education_options)
         income_level = st.selectbox("Income Level", income_options)
         employment_status = st.selectbox("Employment Status", employment_options)
-
+ 
     st.subheader("Lifestyle")
     col3, col4 = st.columns(2)
     with col3:
@@ -51,7 +51,7 @@ with st.form("prediction_form"):
         diet_score = st.slider("Diet Score (0-10)", 0.0, 10.0, 6.0)
         sleep_hours_per_day = st.slider("Sleep hours/day", 0.0, 14.0, 7.0)
         screen_time_hours_per_day = st.slider("Screen time hours/day", 0.0, 20.0, 6.0)
-
+ 
     st.subheader("Medical History")
     col5, col6, col7 = st.columns(3)
     with col5:
@@ -60,7 +60,7 @@ with st.form("prediction_form"):
         hypertension_history = st.selectbox("Hypertension history?", ["No", "Yes"])
     with col7:
         cardiovascular_history = st.selectbox("Cardiovascular history?", ["No", "Yes"])
-
+ 
     st.subheader("Body Measurements")
     col8, col9 = st.columns(2)
     with col8:
@@ -73,7 +73,7 @@ with st.form("prediction_form"):
         cholesterol_total = st.number_input("Total cholesterol", min_value=100, max_value=400, value=190)
         hdl_cholesterol = st.number_input("HDL cholesterol", min_value=10, max_value=120, value=50)
         ldl_cholesterol = st.number_input("LDL cholesterol", min_value=30, max_value=300, value=110)
-
+ 
     st.subheader("Blood Test Values")
     col10, col11 = st.columns(2)
     with col10:
@@ -84,13 +84,13 @@ with st.form("prediction_form"):
         insulin_level = st.number_input("Insulin level", min_value=0.0, max_value=100.0, value=8.0)
         hba1c = st.number_input("HbA1c", min_value=3.0, max_value=15.0, value=5.5)
         diabetes_risk_score = st.number_input("Diabetes risk score (if known, else leave default)", min_value=0.0, max_value=100.0, value=25.0)
-
+ 
     submitted = st.form_submit_button("Predict")
-
+ 
 # ---------- Prediction ----------
 if submitted:
     yn_map = {"No": 0, "Yes": 1}
-
+ 
     raw_input = {
         "age": age,
         "gender": encoders["gender"].transform([gender])[0],
@@ -122,7 +122,7 @@ if submitted:
         "hba1c": hba1c,
         "diabetes_risk_score": diabetes_risk_score,
     }
-
+ 
     # Build dataframe in the exact column order the model was trained on
     input_df = pd.DataFrame([raw_input])
     missing_cols = [c for c in feature_columns if c not in input_df.columns]
@@ -131,14 +131,14 @@ if submitted:
     else:
         input_df = input_df[feature_columns]
         input_scaled = scaler.transform(input_df)
-
+ 
         prediction = model.predict(input_scaled)[0]
         probability = model.predict_proba(input_scaled)[0][1]
-
+ 
         st.divider()
         if prediction == 1:
             st.error(f"⚠️ Model predicts: **Diabetic risk detected** (probability: {probability:.1%})")
         else:
             st.success(f"✅ Model predicts: **No diabetes indicated** (probability of diabetes: {probability:.1%})")
-
-        st.caption("Disclaimer: Ye tool sirf educational/demo purpose ke liye hai, medical diagnosis nahi hai. Kisi bhi health concern ke liye doctor se consult karein.")
+ 
+        st.caption("Disclaimer: This tool is for educational/demo purposes only and is not a medical diagnosis. Please consult a doctor for any health concerns.")
