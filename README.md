@@ -4,7 +4,7 @@ An end-to-end machine learning system that predicts an individual's diabetes ris
 
 🚀 Live Demo
 
-Try the app here →
+👉 https://diabetes-risk-prediction-pyspark-mzvhgqercuq4uhqi53mxfe.streamlit.app/
 
 Enter health and lifestyle details (age, BMI, glucose levels, activity, etc.) and get an instant diabetes risk prediction with probability score.
 
